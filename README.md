@@ -1,1 +1,2 @@
-# EntrevistaTecnica
+# Ejecicio de entrevista técnica
+Este es un proyecto simple que implementa una clase para una librería que desea rentar libros, solo debe realizar un fork de este repo y seguir las instrucciones disponibles en el código fuente.

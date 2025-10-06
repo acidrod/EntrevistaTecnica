@@ -12,7 +12,7 @@ using System.Linq;
 ///     a. Se agreguen 3 libros.
 ///     b. Se rente un libro.
 ///     c. Se rente otro libro.
-///     d. 
+///     d. Devuelva el primer libro.
 ///     d. Que liste los libros disponibles.
 /// </summary>
 
