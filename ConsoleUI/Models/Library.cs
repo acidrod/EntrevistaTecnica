@@ -5,15 +5,28 @@ using System.Linq;
 
 public class Library
 {
-    private List<Book> books = new List<Book>();
-    
+    private readonly List<Book> books = [];
+
     public void AddBook(Book book)
     {
-        throw new NotImplementedException();
+        if (book.Id == 0)
+            book.Id = books.Count + 1;
+
+        books.Add(book);
     }
 
     public void RentBook(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public IEnumerable<Book> GetAllBooks()
+    {
+        return books;
+    }
+    
+    public Book? GetBookById(int id)
+    {
+        return books.FirstOrDefault(b => b.Id == id);
     }
 }
