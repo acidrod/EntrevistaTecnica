@@ -1,7 +1,7 @@
 ﻿namespace ConsoleUI;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Models;
 
 /// <summary>
 /// Instrucciones:
@@ -15,27 +15,6 @@ using System.Linq;
 ///     d. Devuelva el primer libro.
 ///     d. Que liste los libros disponibles.
 /// </summary>
-
-class Book
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
-
-class Library
-{
-    private List<Book> books = new List<Book>();
-    
-    public void AddBook(Book book)
-    {
-        
-    }
-
-    public void RentBook(int id)
-    {
-
-    }
-}
 
 internal class Program
 {
