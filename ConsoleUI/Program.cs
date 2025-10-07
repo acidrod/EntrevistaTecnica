@@ -11,10 +11,11 @@ using Models;
 /// 3. Cree un metodo para devolver un libro ya rentado.
 /// 4. Agrega en el metodo principal un ejemplo de uso de la clase Library donde:
 ///     a. Se agreguen 3 libros.
-///     b. Se rente un libro.
-///     c. Se rente otro libro.
-///     d. Devuelva el primer libro.
-///     d. Que liste los libros disponibles.
+///     b. Que liste los libros disponibles.
+///     c. Se rente un libro.
+///     d. Se rente otro libro.
+///     e. Devuelva el primer libro.
+///     f. Que liste los libros disponibles.
 /// </summary>
 
 internal class Program
