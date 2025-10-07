@@ -7,7 +7,7 @@ using ConsoleUI.CustomExceptions;
 
 public class LibraryTests
 {
-    private readonly Library _library;
+    private readonly ILibrary _library;
 
     public LibraryTests()
     {
@@ -75,6 +75,42 @@ public class LibraryTests
     }
 
     [Fact]
+    public void AddBooks_ShouldAddAllBooksWhenProvidingAListOfBooks()
+    {
+        // Arrange
+        var books = GenerateBooks(5, noId: false);
+
+        // Act
+        _library.AddBooks(books);
+
+        // Assert
+        _library.GetAllBooks()
+            .Should()
+            .HaveCount(5);
+    }
+
+    [Fact]
+    public void AddBooks_ShouldThrowBookExceptionWhenAListOfBooksContainsRepeatedIds()
+    {
+        // Arrange
+        var books = GenerateBooks(2, noId: false).ToList();
+        var repeatedID = 1;
+
+        foreach (var book in books)
+        {
+            book.Id = repeatedID;
+        }
+
+        // Act
+        Action act = () => _library.AddBooks(books);
+
+        // Assert
+        act.Should()
+            .Throw<BookException>()
+            .WithMessage($"The id for the book is repeated. Book ID: {repeatedID}");
+    }
+
+    [Fact]
     public void RentBook_ShouldChangeTheStatusForAnExistingBook()
     {
         // Arrange
@@ -108,6 +144,46 @@ public class LibraryTests
         var bookId = 999;
         Action act = () => _library.RentBook(bookId);
 
+        // Assert
+        act.Should()
+            .Throw<BookNotFoundException>()
+            .WithMessage($"The book with the provided id does not exist. Book ID: {bookId}");
+    }
+
+    [Fact]
+    public void ReturnBook_ShouldChangeTheStatusWhenTheBookIsReturnedByProvidingTheId()
+    {
+        // Arrange
+        var books = GenerateBooks(3).ToList();
+        _library.AddBooks(books);
+        var bookForRent = books.First();
+        _library.RentBook(bookForRent.Id);
+
+        _library.GetBookById(bookForRent.Id)!.IsAvailable
+            .Should()
+            .BeFalse();
+
+        // Act
+        _library.ReturnBook(bookForRent.Id);
+
+        // Assert
+        _library.GetBookById(bookForRent.Id)!.IsAvailable
+            .Should()
+            .BeTrue();
+    }
+
+    [Fact]
+    public void ReturnBook_ShouldThrowBookNotFoundExceptionWhenTheBookIdDoesNotExist()
+    {
+        // Arrange
+        var books = GenerateBooks(3).ToList();
+        foreach (var book in books)
+        {
+            _library.AddBook(book);
+        }
+        var bookId = 999;
+        // Act
+        Action act = () => _library.ReturnBook(bookId);
         // Assert
         act.Should()
             .Throw<BookNotFoundException>()

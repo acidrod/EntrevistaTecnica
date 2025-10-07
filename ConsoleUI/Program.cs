@@ -1,6 +1,7 @@
 ﻿namespace ConsoleUI;
 
 using System;
+using Bogus;
 using Models;
 
 /// <summary>
@@ -21,9 +22,39 @@ internal class Program
     static void Main(string[] args)
     {
         Library library = new Library();
+        library.AddBooks(GenerateBooks(3));
 
-        library.AddBook(new Book { Id = 1, Name = "Book 1" });
+        PrintBooks(library);
 
-        Console.WriteLine("Avaliable books:");
+        var bookToRent1 = library.GetAllBooks().First();
+        var bookToRent2 = library.GetAllBooks().Skip(1).First();
+
+        library.RentBook(bookToRent1.Id);
+        library.RentBook(bookToRent2.Id);
+        library.ReturnBook(bookToRent1.Id);
+
+        PrintBooks(library);
+
+        static void PrintBooks(Library library)
+        {
+            Console.WriteLine("Avaliable books:");
+            foreach (var book in library.GetAllBooks().Where(b => b.IsAvailable))
+            {
+                Console.WriteLine($"- {book.Name} (ID: {book.Id})");
+            }
+        }
+    }
+
+    private static IEnumerable<Book> GenerateBooks(int qty, bool noId = false)
+    {
+        var faker = new Faker();
+        var books = faker.Make(qty, () => new Book
+        {
+            Id = noId ? 0 : faker.Random.Int(1, 1000),
+            Name = faker.Lorem.Sentence(3),
+            IsAvailable = true
+        });
+
+        return books;
     }
 }
